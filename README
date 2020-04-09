@@ -1,16 +1,16 @@
-oss.c and process.c are source codes representing operaing system and processes, respectively
-the generate executables oss and process, where process is only intended to be run by oss.
-at the begining, oss removes previous log file (if one exists) and then allocated shared memory.
-one oss memory block and 20 process blocks. then in infinite loop spawns child processes, schedules their execution and 
-upon reaching criteria send signal to all child processes so they could safely release resoourses and then terminates itself.
-chill process is spawned by first reserving free process block (1 out of 20), the includes setting all its values to initials, 
-then forking the maing process and calling process executable from there. as an argument to process executable, name of a shared 
-memory is given like "/n" where n is index of process block it will use. process then reacts to messages send by oss.
-back in oss, 4 arrays are used for scheduling, where in first array values of 1 indicate process with highest priority waiting in queue.
-at each oss tick that matrix of queues is parsed, starting with queue of highes priority. if no processes are found there, algorighm moves 
-on to queue with priority one level lower. if such process is found, it is given it's time slice and moved to queue one level lower.
-to prevent processes in lower queues to be stuck forever, agin prevention is implemented by each process saving time spent waiting in queue, 
+oss.c and process.c are source codes representing operating system and processes respectively. 
+The executables oss and process are generated, where process is only intended to be run by the oss.
+At the begining, oss removes previous log file (if one exists) and then allocates shared memory.
+One, OSS memory block and then 20 process blocks. Then infinite loop spawns child processes, schedules their execution and 
+upon reaching criteria, sends signal to all the child processes so that they could safely release resourses and finally it terminates itself.
+child process is spawned by first reserving free process block (1 out of 20), includes setting all its values to initials, forking the main process
+and then calling process executable from there as an argument to process executable, name of a shared 
+memory is given like "/n" where n is index of process block it will use. Process reacts to messages send by oss.
+back in oss, 4 arrays are used for scheduling where in first array values of 1 indicate process with highest priority waiting in queue.
+at each oss tick that matrix of queues is parsed, starting with queue of highes priority. If no processes are found there, algorithm moves 
+on to queue with priority one level lower. If such process is found, it gives it's time slice and moves to queue one level lower.
+To prevent processes in lower queues to be stuck forever, agin prevention is implemented by each process saving time spent waiting in queue, 
 and if that time exceedes time that would be given to him based on it's priority, the process is moved to the queue with one level higher priority.
-all the important things are being logged in log.log, which is secured never to exceed 10 thousand lines, even tho with experimentaly 
-set constants like change of child process termination or chance of using it's whole time slice, minimum time between process spawning etc. it never will.
+all the important things are being logged in log.log, which is secured and I made sure it never exceeds 10 thousand lines, even though with experimentally 
+set constriants like change of child process termination or chance of using it's whole time slice, minimum time between process spawning etc. it never will.
 
